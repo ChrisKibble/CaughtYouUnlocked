@@ -1,7 +1,8 @@
 Param(
     [switch]$background,
     [switch]$iexplore,
-    [switch]$notify
+    [switch]$notify,
+    [switch]$search
 )
 
 Add-Type -TypeDefinition @" 
@@ -61,8 +62,6 @@ if($notify) {
     Start-Sleep -Seconds 1
     Remove-Item  "$env:temp\LockYoComputer.txt"
 }
-
-$search = $true
 
 if($search) {
     Start-Process "https://www.google.com/search?safe=on&q=does+farting+burn+calories"
