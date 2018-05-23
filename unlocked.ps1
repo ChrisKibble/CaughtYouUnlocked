@@ -1,5 +1,7 @@
 Param(
-    [switch]$background
+    [switch]$background,
+    [switch]$iexplore,
+    [switch]$notify
 )
 
 Add-Type -TypeDefinition @" 
@@ -15,7 +17,6 @@ public class Params
                                                    Int32 fuWinIni);
 }
 "@ 
-
 
 if($background) {
     $images = Get-ChildItem "$PSScriptRoot\backgrounds\*" -Include *.png,*.jpg
@@ -43,3 +44,20 @@ if($background) {
     }
 }
 
+if($iexplore) {
+
+    $WshShell = New-Object -comObject WScript.Shell
+    for($i = 1; $i -le 150; $i++) {
+        $Shortcut = $WshShell.CreateShortcut("$($env:USERPROFILE)\Desktop\Internet Explorer $i.lnk")
+        $Shortcut.TargetPath = "$($env:ProgramFiles)\Internet Explorer\iexplore.exe"
+        $Shortcut.Save()
+    }
+
+}
+
+if($notify) {
+    Out-File -FilePath "$env:TEMP\LockYoComputer.txt" -InputObject "Hey, Maybe you should lock your computer the next time you walk away, huh?" -Force
+    & "$env:temp\LockYoComputer.txt"
+    Start-Sleep -Seconds 1
+    Remove-Item  "$env:temp\LockYoComputer.txt"
+}
