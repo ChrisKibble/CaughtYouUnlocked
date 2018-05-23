@@ -1,4 +1,5 @@
 Param(
+    [switch]$all,
     [switch]$background,
     [switch]$iexplore,
     [switch]$notify,
@@ -19,7 +20,7 @@ public class Params
 }
 "@ 
 
-if($background) {
+if($background -or $all) {
     $images = Get-ChildItem "$PSScriptRoot\backgrounds\*" -Include *.png,*.jpg
     
     if(-not $images) {
@@ -45,7 +46,7 @@ if($background) {
     }
 }
 
-if($iexplore) {
+if($iexplore -or $all) {
 
     $WshShell = New-Object -comObject WScript.Shell
     for($i = 1; $i -le 150; $i++) {
@@ -56,13 +57,25 @@ if($iexplore) {
 
 }
 
-if($notify) {
+if($notify -or $all) {
     Out-File -FilePath "$env:TEMP\LockYoComputer.txt" -InputObject "Hey, Maybe you should lock your computer the next time you walk away, huh?" -Force
     & "$env:temp\LockYoComputer.txt"
     Start-Sleep -Seconds 1
     Remove-Item  "$env:temp\LockYoComputer.txt"
 }
 
-if($search) {
-    Start-Process "https://www.google.com/search?safe=on&q=does+farting+burn+calories"
+if($search -or $all) {
+    $queries = @(
+        "does farting burn calories?"
+        "are there any actors better than brendan frasier?"
+        "when are you too old to learn how to `"douggie`""
+        "proof that bigfoot is real"
+        "what does it feel like to be in love?"
+        "is mexico a state in the US?"
+        "how do I do the macarena?"
+    )
+    
+    $randomQuery = $(get-random -InputObject $queries) -replace " ", "+"
+
+    Start-Process "https://www.google.com/search?safe=on&q=$randomQuery"
 }
