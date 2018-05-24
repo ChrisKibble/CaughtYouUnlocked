@@ -9,3 +9,7 @@ Available Switches:
 * **-iexplore** : Creates 150 new Internet Explorer icons on the desktop.
 * **-notify** : Maybe you should lock your computer next time?
 * **-search** : Opens an embarassing search query.
+
+The **unlocked.cmd** file will call the powershell script and pass along whatever command line arguments to pass to it over to the script.
+
+Example **unlocked -search**
